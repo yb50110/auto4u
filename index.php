@@ -1,3 +1,12 @@
+<!--
+  IT 440/540 Group Assignment
+  Members:
+      Yun Ha Seo
+      Gabriel Smith
+      Miles Winston
+      Sushil Manandhar
+  -->
+
 <?php
 $dbhandle = new mysqli('localhost','root','root','auto4you');
 $dbhandle->connect_error;
@@ -6,19 +15,14 @@ $query = "SELECT MONTHNAME(Payment_Date) AS 'Month', Payment_Amount
 FROM Payment";
 $res = $dbhandle->query($query);
 
+$branch_query = "SELECT * FROM Branch";
+$branch_query_result = $dbhandle->query($branch_query);
+$branch = mysqli_fetch_array($branch_query_result, MYSQLI_ASSOC);
+
 ?>
 
 <html lang="en">
 <head>
-    <!--
-    IT 440/540 Group Assignment
-    Members:
-        Yun Ha Seo
-        Gabriel Smith
-        Miles Winston
-        Sushil Manandhar
-    -->
-
     <meta charset="UTF-8">
     <title>Auto4You</title>
 
@@ -60,10 +64,17 @@ $res = $dbhandle->query($query);
         </div>
 
         <div class="main">
-
-
             <div class="body">
-                <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+                <h1 class="branch-id">Branch ID: <?php echo $branch['Branch_Id'] ?></h1>
+                <p class="branch-location small"><?php echo $branch['Branch_City'] . ", "  ?></p>
+                <p class="branch-phone small"><?php echo $branch['Branch_Tel_Num'] ?></p>
+
+                <p class="branch-total-revenue"></p>
+                <div class="branch-performance"></div>
+
+                <div class="infographics">
+                    <div id="piechart_3d"></div>
+                </div>
             </div>
             <div class="right-nav">
 

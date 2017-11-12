@@ -573,5 +573,23 @@ abbr, acronym {
   overflow: hidden;
   height: 100vh;
   float: left; }
+  .main .body {
+    width: calc(100% - 250px);
+    height: calc(100% - 35px);
+    margin: 20px 0 20px 20px;
+    background-color: #F4F4F4;
+    padding: 50px 30px;
+    overflow-y: scroll; }
+    .main .body .branch-id {
+      color: #304A5F; }
+    .main .body .small {
+      font-size: 14px; }
+    .main .body .infographics {
+      justify-content: space-between;
+      flex-direction: row;
+      margin-top: 30px;
+      display: flex; }
+      .main .body .infographics > div {
+        width: calc((100% / 2) - 20px); }
 
 /*# sourceMappingURL=main.css.map */
