@@ -1,3 +1,12 @@
 // -----------------------------------------------------------------------------
 // This file contains styles that are specific to the home page.
 // -----------------------------------------------------------------------------
+
+.main {
+  width: calc(100% - 80px);
+  overflow: hidden;
+  height: 100vh;
+  float: left;
+
+
+}

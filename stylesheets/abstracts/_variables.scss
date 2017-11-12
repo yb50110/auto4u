@@ -3,9 +3,6 @@
 // -----------------------------------------------------------------------------
 
 
-
-
-
 /// Regular font family
 /// @type List
 $text-font-stack: 'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !default;
@@ -16,14 +13,13 @@ $code-font-stack: 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
 
 
 
-
-
 /// Copy text color
 /// @type Color
 $text-color: rgb(34, 34, 34) !default;
 
 /// Main brand color
 /// @type Color
+$blue: #2D7DD9;
 $brand-color: rgb(229, 0, 80) !default;
 
 /// Light grey

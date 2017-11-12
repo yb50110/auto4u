@@ -550,4 +550,28 @@ q:before, q:after {
 abbr, acronym {
   border: 0; }
 
+.sidebar {
+  background-color: #2D7DD9;
+  position: relative;
+  height: 100vh;
+  width: 80px;
+  float: left; }
+  .sidebar .user-image {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    position: absolute;
+    cursor: pointer;
+    height: 50px;
+    bottom: 50px;
+    width: 50px;
+    left: 15px; }
+
+.main {
+  width: calc(100% - 80px);
+  overflow: hidden;
+  height: 100vh;
+  float: left; }
+
 /*# sourceMappingURL=main.css.map */
