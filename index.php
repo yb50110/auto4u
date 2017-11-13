@@ -65,19 +65,30 @@ $branch = mysqli_fetch_array($branch_query_result, MYSQLI_ASSOC);
 
         <div class="main">
             <div class="body">
-                <h1 class="branch-id">Branch ID: <?php echo $branch['Branch_Id'] ?></h1>
-                <p class="branch-location small"><?php echo $branch['Branch_City'] . ", "  ?></p>
-                <p class="branch-phone small"><?php echo $branch['Branch_Tel_Num'] ?></p>
+                <div class="branch-container-<?php echo $branch['Branch_Id'] ?> active">
+                    <h1 class="branch-id">Branch ID: <?php echo $branch['Branch_Id'] ?></h1>
+                    <p class="branch-location small"><?php echo $branch['Branch_City'] . ", "  ?></p>
+                    <p class="branch-phone small"><?php echo $branch['Branch_Tel_Num'] ?></p>
 
-                <p class="branch-total-revenue"></p>
-                <div class="branch-performance"></div>
+                    <p class="branch-total-revenue">$100,000</p>
+                    <div class="branch-performance">
 
-                <div class="infographics">
-                    <div id="piechart_3d"></div>
+                    </div>
+
+                    <div class="infographics">
+                        <div id="piechart_3d"></div>
+                    </div>
                 </div>
+
+                <div class="branch-container-"></div>
             </div>
             <div class="right-nav">
-
+                <?php
+                    foreach ($branch as $singleBranch) {
+                        echo "<div class='nav-tab'>$singleBranch</div>";
+                    }
+                ?>
+                <div class="nav-tab new">+ Add another branch</div>
             </div>
         </div>
     </div>

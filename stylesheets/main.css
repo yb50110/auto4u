@@ -579,9 +579,15 @@ abbr, acronym {
     margin: 20px 0 20px 20px;
     background-color: #F4F4F4;
     padding: 50px 30px;
-    overflow-y: scroll; }
+    float: left; }
+    .main .body [class^="branch-container-"] {
+      display: none; }
+      .main .body [class^="branch-container-"].active {
+        display: block; }
     .main .body .branch-id {
       color: #304A5F; }
+    .main .body .branch-total-revenue {
+      float: right; }
     .main .body .small {
       font-size: 14px; }
     .main .body .infographics {
@@ -591,5 +597,22 @@ abbr, acronym {
       display: flex; }
       .main .body .infographics > div {
         width: calc((100% / 2) - 20px); }
+  .main .right-nav {
+    margin: 20px 0;
+    width: 200px;
+    height: 50px;
+    float: left; }
+    .main .right-nav .nav-tab {
+      padding: 10px 10px 10px 20px;
+      background-color: #F4F4F4;
+      margin: 10px 0 0 0;
+      cursor: pointer;
+      font-size: 14px; }
+      .main .right-nav .nav-tab:hover {
+        opacity: 0.5; }
+      .main .right-nav .nav-tab.new {
+        border: 3px dashed #F4F4F4;
+        background: #ffffff;
+        border-left: 0px; }
 
 /*# sourceMappingURL=main.css.map */
