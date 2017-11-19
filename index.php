@@ -8,17 +8,11 @@
   -->
 
 <?php
-$dbhandle = new mysqli('localhost','root','root','auto4you');
-$dbhandle->connect_error;
+    $dbhandle = new mysqli('localhost','root','root','auto4you');
+    $dbhandle->connect_error;
 
-$query = "SELECT MONTHNAME(Payment_Date) AS 'Month', Payment_Amount
-FROM Payment";
-$res = $dbhandle->query($query);
-
-$branch_query = "SELECT * FROM Branch";
-$branch_query_result = $dbhandle->query($branch_query);
-$branch = mysqli_fetch_array($branch_query_result, MYSQLI_ASSOC);
-
+    $branch_query = "SELECT * FROM Branch";
+    $branch_query_result = $dbhandle->query($branch_query);
 ?>
 
 <html lang="en">
@@ -28,33 +22,11 @@ $branch = mysqli_fetch_array($branch_query_result, MYSQLI_ASSOC);
 
     <link rel="stylesheet" href="stylesheets/main.css">
 
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <!-- Scripts for pie chart-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load("current", {packages:["corechart"]});
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-                ['Month', 'Payment_Amount'],
-
-                <?php
-                while($row=$res->fetch_assoc()){
-
-                    echo "['".$row['Month']."',".$row['Payment_Amount']."],";
-                }
-                ?>
-            ]);
-
-            var options = {
-                title: 'Total Revenue Over Time',
-                is3D: true,
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-            chart.draw(data, options);
-        }
-    </script>
 </head>
 <body>
 
@@ -65,27 +37,32 @@ $branch = mysqli_fetch_array($branch_query_result, MYSQLI_ASSOC);
 
         <div class="main">
             <div class="body">
-                <div class="branch-container-<?php echo $branch['Branch_Id'] ?> active">
-                    <h1 class="branch-id">Branch ID: <?php echo $branch['Branch_Id'] ?></h1>
-                    <p class="branch-location small"><?php echo $branch['Branch_City'] . ", "  ?></p>
-                    <p class="branch-phone small"><?php echo $branch['Branch_Tel_Num'] ?></p>
-
-                    <p class="branch-total-revenue">$100,000</p>
-                    <div class="branch-performance">
-
-                    </div>
-
-                    <div class="infographics">
-                        <div id="piechart_3d"></div>
-                    </div>
+                <div class="branch-view-1 active">
+                    <?php include 'branch1.php'; ?>
                 </div>
-
-                <div class="branch-container-"></div>
+                <div class="branch-view-2">
+                    <?php include 'branch2.php'; ?>
+                </div>
+                <div class="branch-view-3">
+                    <?php include 'branch3.php'; ?>
+                </div>
+                <div class="branch-view-4">
+                    <?php include 'branch4.php'; ?>
+                </div>
+                <div class="branch-view-5">
+                    <?php include 'branch5.php'; ?>
+                </div>
+                <div class="branch-view-6">
+                    <?php include 'branch6.php'; ?>
+                </div>
             </div>
             <div class="right-nav">
                 <?php
-                    foreach ($branch as $singleBranch) {
-                        echo "<div class='nav-tab'>$singleBranch</div>";
+                    if ($branch_query_result->num_rows > 0) {
+                        while($row = $branch_query_result->fetch_assoc()) {
+                            // create a tab and bind an onclick function that opens associated branch view
+                            echo "<div class='nav-tab nav-view-" . $row["Branch_Id"] . "' onclick='showBranch(" . $row["Branch_Id"] . ")'>Branch ID: " . $row["Branch_Id"] . "<div class='nav-tab-status'></div></div>";
+                        }
                     }
                 ?>
                 <div class="nav-tab new">+ Add another branch</div>
@@ -94,4 +71,26 @@ $branch = mysqli_fetch_array($branch_query_result, MYSQLI_ASSOC);
     </div>
 
 </body>
+
+<script>
+    $(document).ready(function() {
+        // on document load, add class active to the first active tab
+        if (!$('.nav-view-1').hasClass('active')) {
+            $('.nav-view-1').addClass('active')
+        }
+
+        // for demo purposes, remove some branch tabs
+        $('.nav-view-3').hide();
+        $('.nav-view-6').hide();
+    });
+
+    function showBranch(branchId) {
+        // remove active from all branch views
+        $('[class*="nav-view-').removeClass('active');
+        $('[class*="branch-view-"]').removeClass('active');
+        // add active only to the associated branch view
+        $('.nav-view-' + branchId).addClass('active');
+        $('.branch-view-' + branchId).addClass('active');
+    }
+</script>
 </html>
