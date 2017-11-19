@@ -94,13 +94,17 @@
       }
 
       .infographics {
-        justify-content: space-between;
+        justify-content: center;
         flex-direction: row;
-        margin-top: 30px;
+        margin-top: 50px;
+        flex-wrap: wrap;
         display: flex;
 
         > div {
-          width: calc((100% / 2) - 20px);
+          width: calc((100% / 2) - 100px);
+          margin-bottom: 20px;
+          margin-right: 20px;
+          height: 300px;
         }
       }
     }

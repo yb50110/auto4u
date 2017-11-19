@@ -27,6 +27,10 @@
 
     <!-- Scripts for pie chart-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        // Load Charts and the corechart package.
+        google.charts.load('current', {'packages':['corechart']});
+    </script>
 </head>
 <body>
 
