@@ -47,11 +47,12 @@
 
 <div class="branch-container">
     <h1 class="branch-id">Branch ID: <?php echo $single_branch['Branch_Id'] ?></h1>
-    <p class="branch-location small"><?php echo $single_branch['Branch_City'] . ", "  ?></p>
+    <p class="branch-location small"><?php echo $single_branch['Branch_City'] . ", " . $single_branch['State_Id'] ?></p>
     <p class="branch-phone small"><?php echo $single_branch['Branch_Tel_Num'] ?></p>
+    <div class="clearfix"></div>
 
-    <p class="branch-total-revenue">$100,000</p>
     <div class="branch-performance"></div>
+    <p class="branch-total-revenue">$100,000</p>
 
     <div class="infographics">
         <div class="rows">
@@ -76,10 +77,13 @@
 
         if (totalRev >= 300000) {
             $('.nav-view-1 .nav-tab-status').addClass('good');
+            $('.branch-performance').addClass('good');
         } else if (totalRev >= 100000 && totalRev < 300000) {
             $('.nav-view-1 .nav-tab-status').addClass('fair');
+            $('.branch-performance').addClass('fair');
         } else {
             $('.nav-view-1 .nav-tab-status').addClass('bad');
+            $('.branch-performance').addClass('bad');
         }
     });
 </script>
