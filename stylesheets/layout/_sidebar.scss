@@ -5,6 +5,13 @@
     width: 80px;
     float: left;
 
+    .company-image {
+        width: 55px;
+        position: absolute;
+        top: 12px;
+        left: 12px;
+    }
+
     .user-image {
         background-repeat: no-repeat;
         background-position: center;
