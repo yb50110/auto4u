@@ -38,6 +38,7 @@
         <div class="sidebar">
             <img class="company-image" src="/img/auto4you-logo.png" alt="Auto4you logo">
             <div class="user-image" style="background-image: url('img/yunha.jpg');"></div>
+            <a href="logout.php" class="logout-button">Log out</a>
         </div>
 
         <div class="main">

@@ -523,6 +523,13 @@ abbr, acronym {
     bottom: 50px;
     width: 50px;
     left: 15px; }
+  .sidebar .logout-button {
+    position: absolute;
+    font-size: 0.75em;
+    padding: 3px 7px;
+    color: #ffffff;
+    bottom: 12px;
+    left: 5px; }
 
 [class^="branch-view"] {
   display: none; }
