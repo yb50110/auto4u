@@ -67,7 +67,7 @@
                     if ($branch_query_result->num_rows > 0) {
                         while($row = $branch_query_result->fetch_assoc()) {
                             // create a tab and bind an onclick function that opens associated branch view
-                            echo "<div class='nav-tab nav-view-" . $row["Branch_Id"] . "' onclick='showBranch(" . $row["Branch_Id"] . ")'>Branch ID: " . $row["Branch_Id"] . "<div class='nav-tab-status'></div></div>";
+                            echo "<div class='nav-tab nav-view-" . $row["Branch_Id"] . "' onclick='showBranch(" . $row["Branch_Id"] . ")'>Branch: " . $row["Branch_City"] . "<div class='nav-tab-status'></div></div>";
                         }
                     }
                 ?>
@@ -87,6 +87,8 @@
 
         // for demo purposes, remove some branch tabs
         $('.nav-view-3').hide();
+        $('.nav-view-4').hide();
+        $('.nav-view-5').hide();
         $('.nav-view-6').hide();
     });
 
