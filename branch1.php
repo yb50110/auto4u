@@ -1,42 +1,72 @@
 <?php
     // chart 1
-    $branch1_query = "SELECT MONTHNAME(Payment_Date) AS 'Month', SUM(Payment_Amount) AS 'Total'
-    FROM Payment
-    GROUP BY MONTHNAME(Payment_Date)";
+    $branch1_query = "SELECT MONTHNAME(a.Payment_Date) AS 'Month', SUM(a.Payment_Amount) AS 'Total'
+        FROM Payment AS a
+        INNER JOIN invoice AS b 
+        ON a.Invoice_Id = b.Invoice_Id
+        INNER JOIN rental AS c 
+        ON c.Rental_Id = b.Rental_Id
+        INNER JOIN car AS d 
+        ON d.Car_Id = c.Car_Id
+        INNER JOIN branch AS e 
+        ON e.Branch_Id = d.Branch_Id
+        WHERE e.Branch_Id = 1
+        GROUP BY MONTHNAME(Payment_Date)";
     $branch1_res = $dbhandle->query($branch1_query);
 
     //Chart 2 Query
     $branch1_query2 = "SELECT branch_city AS 'City', SUM(Payment_Amount) AS 'Revenue' 
-    FROM branch AS a INNER JOIN car AS b 
-    ON a.Branch_Id = b.Branch_Id INNER JOIN rental AS c ON b.Car_Id = c.Car_Id 
-    INNER JOIN invoice AS d ON c.Rental_Id = d.Rental_Id 
-    INNER JOIN payment AS e ON d.Invoice_Id = e.Invoice_Id 
-    WHERE state_Id = 1 
-    GROUP BY Branch_City";
+        FROM branch AS a INNER JOIN car AS b 
+        ON a.Branch_Id = b.Branch_Id INNER JOIN rental AS c ON b.Car_Id = c.Car_Id 
+        INNER JOIN invoice AS d ON c.Rental_Id = d.Rental_Id 
+        INNER JOIN payment AS e ON d.Invoice_Id = e.Invoice_Id 
+        WHERE State_Id = 1
+        OR a.Branch_Id = 1
+        GROUP BY Branch_City";
     $branch1_res2 = $dbhandle->query($branch1_query2);
 
     //Chart 3 Query
     $branch1_query3 = "SELECT MONTHNAME(Rental_start_date_time) AS 'Month', COUNT(DISTINCT(f.Cus_Id)) AS 'Unique Visitors' 
-    FROM branch AS a INNER JOIN car AS b ON a.Branch_Id = b.Branch_Id 
-    INNER JOIN rental AS c ON b.Car_Id = c.Car_Id 
-    INNER JOIN invoice AS d ON c.Rental_Id = d.Rental_Id 
-    INNER JOIN payment AS e ON d.Invoice_Id = e.Invoice_Id 
-    INNER JOIN customer AS f ON f.Cus_Id = d.Cus_Id 
-    GROUP BY Month";
+        FROM branch AS a INNER JOIN car AS b ON a.Branch_Id = b.Branch_Id 
+        INNER JOIN rental AS c ON b.Car_Id = c.Car_Id 
+        INNER JOIN invoice AS d ON c.Rental_Id = d.Rental_Id 
+        INNER JOIN payment AS e ON d.Invoice_Id = e.Invoice_Id 
+        INNER JOIN customer AS f ON f.Cus_Id = d.Cus_Id 
+        WHERE a.Branch_Id = 1
+        GROUP BY Month";
     $branch1_res3 = $dbhandle->query($branch1_query3);
 
     //Chart 4 Query
-    $branch1_query4 = "SELECT MONTHNAME(Rental_Actual_End_Date_Time) AS 'Month', Count(a.Car_Id) AS 'Count' 
-    FROM car AS a INNER JOIN rental AS b ON a.Car_Id = b.Car_Id GROUP BY Month ";
+    $branch1_query4 = "SELECT MONTHNAME(Rental_Actual_End_Date_Time) AS 'Month', Count(d.Car_Id) AS 'Count' 
+        FROM Payment AS a
+        INNER JOIN invoice AS b 
+        ON a.Invoice_Id = b.Invoice_Id
+        INNER JOIN rental AS c 
+        ON c.Rental_Id = b.Rental_Id
+        INNER JOIN car AS d 
+        ON d.Car_Id = c.Car_Id
+        INNER JOIN branch AS e 
+        ON e.Branch_Id = d.Branch_Id
+        WHERE e.Branch_Id = 1
+        GROUP BY Month";
     $branch1_res4 = $dbhandle->query($branch1_query4);
 
-    $branch1_info_query = "SELECT * FROM Branch WHERE Branch_Id = 1";
+    // General information
+    $branch1_info_query = "SELECT * FROM Branch JOIN State ON State.State_Id = Branch.State_Id HAVING Branch.Branch_Id = 1";
     $branch1_info_query_result = $dbhandle->query($branch1_info_query);
     $branch1 = mysqli_fetch_array($branch1_info_query_result, MYSQLI_ASSOC);
 
-//    todo
-    $branch1_totalRev_query = "";
-    $branch1_totalRev = 100000;
+    $branch1_totalRev_query = "
+        SELECT SUM(i.Invoice_Total_Cost) AS 'TotalRev'
+       FROM Invoice AS i
+       JOIN Rental AS r ON i.Rental_ID = r.Rental_Id
+       JOIN Car AS c on r.Car_Id = c.Car_Id
+       JOIN Branch AS b on c.Branch_Id = b.Branch_Id
+       GROUP BY b.Branch_Id
+       HAVING b.Branch_Id = 1
+        ";
+    $branch1_totalRev_query_result = $dbhandle->query($branch1_totalRev_query);
+    $branch1_totalRev = mysqli_fetch_array($branch1_totalRev_query_result, MYSQLI_ASSOC)
 ?>
 
 <script>
@@ -64,7 +94,7 @@
         ]);
 
         var options = {
-            title: 'Total Revenue Over Time (Months)',
+            title: 'Total earning Over Time (Months)',
             is3D: true,
             legend: { position: "none" },
         };
@@ -90,7 +120,7 @@
 
         // Set options for Anthony's pie chart.
         var options = {
-            title:'Total revenue compared to nearby branches',
+            title:'Total earning compared to nearby branches',
             is3D: true,
             legend: { position: "none" },
         };
@@ -150,12 +180,16 @@
 
 <div class="branch-container">
     <h1 class="branch-id">Branch ID: <?php echo $branch1['Branch_Id'] ?></h1>
-    <p class="branch-location small"><?php echo $branch1['Branch_City'] . ", " . $branch1['State_Id'] ?></p>
-    <p class="branch-phone small"><?php echo $branch1['Branch_Tel_Num'] ?></p>
+    <p class="branch-location small"><?php echo $branch1['Branch_City'] . ", " . $branch1['State_Name'] ?></p>
+    <p class="branch-phone small">
+        <?php echo "(" . substr($branch1['Branch_Tel_Num'], 0, 3) . ") " .
+            substr($branch1['Branch_Tel_Num'], 3, 3) . " - " .
+            substr($branch1['Branch_Tel_Num'], 6) ?>
+    </p>
     <div class="clearfix"></div>
 
-    <div class="branch-performance"></div>
-    <p class="branch-total-revenue">$100,000</p>
+    <div class="branch-1 branch-performance"></div>
+    <p class="branch-total-revenue">Total Revenue: $<?php echo $branch1_totalRev['TotalRev'] ?></p>
 
     <div class="infographics">
         <div id="branch1_drawChart" style="border: 1px solid #ccc; display: inline-block"></div>
@@ -170,17 +204,17 @@
      * sets the status of associated tab
      */
     $(document).ready(function() {
-        var totalRev = <?php echo $branch1_totalRev ?>
+        var totalRev = <?php echo $branch1_totalRev['TotalRev'] ?>;
 
-        if (totalRev >= 300000) {
+        if (totalRev >= 1900) {
             $('.nav-view-1 .nav-tab-status').addClass('good');
-            $('.branch-performance').addClass('good');
-        } else if (totalRev >= 100000 && totalRev < 300000) {
+            $('.branch-1.branch-performance').addClass('good');
+        } else if (totalRev >= 500 && totalRev < 1900) {
             $('.nav-view-1 .nav-tab-status').addClass('fair');
-            $('.branch-performance').addClass('fair');
+            $('.branch-1.branch-performance').addClass('fair');
         } else {
             $('.nav-view-1 .nav-tab-status').addClass('bad');
-            $('.branch-performance').addClass('bad');
+            $('.branch-1.branch-performance').addClass('bad');
         }
     });
 </script>
