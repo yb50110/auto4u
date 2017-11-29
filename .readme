@@ -1,0 +1,13 @@
+You're going to want to install sass into this repository...
+
+Inside this project folder, run the terminal command: `gem install sass`
+Depending on your computer, you might have to run in sudo: `sudo gem install sass`
+
+To test that it installed correctly, run the command: `sass -v`
+A version number should be returned.
+
+Now run this command to compile the scss file and continuously watch for changes: `sass --watch stylesheets/main.scss:stylesheets/main.css`
+Ctrl-C to stop watching.
+
+
+-- Note from Yunha: I will be pushing the css file so that you may atleast have a somewhat updated css in case the above steps does not work for you

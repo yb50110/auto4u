@@ -1,0 +1,45 @@
+.page-login {
+  width: 350px;
+  margin: 150px auto;
+  text-align: center;
+
+  img {
+    width: 50%;
+    margin: 0 auto 30px auto;
+  }
+
+  .panel {
+    border: 1px solid $blue;
+
+    .panel-header {
+      background-color: $blue;
+      padding: 10px 20px;
+      color: #ffffff;
+    }
+
+    .panel-body {
+      padding: 20px;
+
+      form {
+        input {
+          width: 100%;
+          border: none;
+          background: $gray;
+          padding: 10px 20px;
+        }
+
+        button {
+          background-color: $blue;
+          color: #ffffff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 0;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+}

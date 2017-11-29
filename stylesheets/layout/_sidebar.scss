@@ -1,0 +1,36 @@
+.sidebar {
+    background-color: $blue;
+    position: relative;
+    height: 100vh;
+    width: 80px;
+    float: left;
+
+    .company-image {
+        width: 55px;
+        position: absolute;
+        top: 12px;
+        left: 12px;
+    }
+
+    .user-image {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        border-radius: 50%;
+        position: absolute;
+        cursor: pointer;
+        height: 50px;
+        bottom: 50px;
+        width: 50px;
+        left: 15px;
+    }
+
+    .logout-button {
+        position: absolute;
+        font-size: 0.75em;
+        padding: 3px 7px;
+        color: #ffffff;
+        bottom: 12px;
+        left: 5px;
+    }
+}
